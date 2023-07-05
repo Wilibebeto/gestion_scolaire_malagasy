@@ -1,0 +1,72 @@
+:root{
+    --bg-gray:#fafbfc;--color-gray:#d3d4d5;--color-white:#ffffff;--color-default:#010235;--color-primary:#0053a1;--color-red:#e01e5a;--color-yellow:#ecb22e;--color-blue:#36c5f0;
+}
+*,:before,:after{
+    -moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box
+}
+html,body{
+    padding:0;margin:0;overflow-x: hidden
+}
+.hero{
+    margin-top:-80px;padding-top:120px;padding-bottom:60px;background-color:var(--color-default);color:var(--color-white)
+}
+.hero-text{
+    font-size:2.5rem;font-weight:600;max-width: 445px;position: relative;top: 145px;left: 50px;
+}
+.banner{
+    height: 350px;width: 100%
+}
+.banner img{
+    height: 350px;width: 100%
+}
+.hero-text h1{
+    font-family: cursive
+}
+.hero-img{
+    position: relative;left: 10px
+}
+.menu{
+    position: absolute;left: 700px;top:35px
+}
+.menu ul{
+    list-style: none;
+}
+.menu ul li {
+    display: inline;margin: 5px
+}
+.menu ul li a{
+    color: #ffffff;font-family: cursive;font-size: 12px
+}
+.menu ul li a:hover{
+    text-decoration: none;color: aqua
+}
+.how-img img{
+    width: 545px;position: relative;left: 15px
+}
+.how-txt p{
+    position: relative;top: 145px
+}
+.how-txt-1 p{
+    position: relative;top: 145px;left: 15px
+}
+#footer{
+    padding:50px 0 60px;background-color:var(--color-default);color:var(--color-white)
+}
+.footer-top{
+    padding-bottom:20px;margin-left: 50px
+}
+.footer-top ul{
+    padding:0;margin:0 0 20px;list-style:none
+}
+.footer-top ul li h3{
+    font-size:14px;font-weight:600;margin-bottom:.25rem;text-transform:uppercase;opacity:.65
+}
+.social-media{
+    margin:0 -5px
+}
+.social-media>li{
+    display:inline-block;margin:0 5px
+}
+.social-media>li>a{
+    font-size:32px
+}
