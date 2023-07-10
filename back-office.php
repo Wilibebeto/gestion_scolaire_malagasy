@@ -3,6 +3,15 @@
   if (!isset($_SESSION['user']) OR $_SESSION['user']['role'] != 'admin'){
     header("location: index.php");
   }
+
+ try {
+    $db = new PDO("mysql:host=localhost;dbname=gestion_scolaire","root","root");
+ } catch (Exception $e) {
+    die('Error: ' . $e->getMessage());
+ }
+  $conn = $db->query('SELECT * FROM user WHERE role = \'etudiant\'');
+
+ ?>
  ?>
 
 <!DOCTYPE html>
@@ -23,8 +32,8 @@
                 </div>
                 <nav class="menu">
                     <ul>
-                        <li><a href="./tableadmin.php">Tableau de bord</a></li>
-                        <li><a href="#" class="active">Mes demandes</a></li>
+                        <li><a href="#" class="active">Tableau de bord</a></li>
+                        <li><a href="#">Mes demandes</a></li>
                         <li><a href="./user.php">Utilisateur</a></li>
                         <li><a href="./admin.php">Admin</a></li>
                         <li><a href="./logout.php">Deconexion</a></li>
@@ -56,41 +65,22 @@
                     <div class="col-4"><input type="text" name="recherche" class="form-control" placeholder="Recherche..."></div>
                 </div>
                 <br>
+                <h3>Listes des etudiants</h3>
              <table class="table" style="font-size: 12px;">
                  <thead>
-                     <th>Campus</th>
+                     <th>#ID</th>
+                     <th>Username</th>
                      <th>Nom</th>
-                     <th>Niveau</th>
-                     <th>Type</th>
-                     <th>heures</th>
-                     <th>dates</th>
-                     <th>Status</th>
-                     <th>Action</th>
+                     <th>Prenom</th>
                  </thead>
                  <tbody>
                     <?php while ($row = $conn->fetch()) 
                     {?>
                      <tr>
-                         <td><?php echo $row['campus'] ?></td>
-                         <td><?php echo $row['name'] ?></td>
-                         <td><?php echo $row['level'] ?></td>
-                         <td><?php echo $row['type'] ?></td>
-                         <td><?php echo $row['timed'] ?>
-                             <?php echo $row['timea'] ?>
-                         </td>
-                         <td><?php echo $row['date'] ?></td>
-                         <td>
-                                <?php if($row['status'] == 1): ?>
-                                    <i class="fa fa-check-circle text-success"></i> Accepté
-                                <?php elseif($row['status'] == 2): ?>
-                                    <i class="fa fa-times-circle text-danger"></i> Réfusé
-                                <?php else: ?>
-                                    <i class="fa fa-exclamation-triangle text-warning"></i> En attente
-                                <?php endif ?>
-                            </td>
-                         <td>
-                             <input type="submit" name="accept" class="btn btn-info change_state" data-id="<?= $row['id'] ?>" data-state="1" value="Accepter">
-                             <input type="submit" name="refuser" data-id="<?= $row['id'] ?>" data-state="2" class="btn btn-danger change_state" value="Refuser">
+                         <td><?php echo $row['id'] ?></td>
+                         <td><?php echo $row['username'] ?></td>
+                         <td><?php echo $row['lastname'] ?></td>
+                         <td><?php echo $row['firstname'] ?></td>
                          </td>
                      </tr>
                  <?php } ?>

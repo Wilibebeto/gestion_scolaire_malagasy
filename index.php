@@ -40,7 +40,29 @@
       <li><a href="">Qui sommes nous?</a></li>
       <li><a href="">Aide</a></li>
       <li><a href="">Mention legales</a></li>
-      <li><a href="login.php">Se connecter</a></li>
+       <?php if (!is_null($user)): ?>
+    <div class="auth d-flex align-items-center">
+        <ul>
+            <li class='_dropdown'>
+                <button class='_dropdown-toggle user-avatar'>
+                    <img src="image/avatar.jpg" alt="" />
+                </button>
+                <ul class='_dropdown-menu'>
+                    <?php if ($user['role'] == 'etudiant') ?>
+                    <li><a href="./student.php">Mon profil</a></li>
+                    
+                    <?php if ($user['role'] == 'admin'): ?>
+                    <li><a href="./back-office.php">Back office</a></li>
+                    <?php endif ?>
+                    <li><a href="./logout.php">Déconnexion</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+  <?php else: ?>
+    <a href="login.php"><button class="btn btn-primary" style="position: absolute;top: 25px;left: 1200px;">Se connecter</button></a>
+    <li><a href="login.php">Se connecter</a></li>
+  <?php endif ?>
       </ul>
     </div>
   </div>
