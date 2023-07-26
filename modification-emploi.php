@@ -9,9 +9,14 @@
  } catch (Exception $e) {
     die('Error: ' . $e->getMessage());
  }
-  $conn = $db->query('SELECT * FROM user WHERE role = \'etudiant\'');
+ if(isset($_GET['id'])){
+     $id = $_GET['id'];
+     $conn = $db->prepare('SELECT * FROM emploi_du_temps WHERE id =:id ');
+     $conn->bindValue(':id', $id, PDO::PARAM_INT);
+     $conn->execute();
+     $emploi = $conn->fetch();
+ }
 
- ?>
  ?>
 
 <!DOCTYPE html>
@@ -32,8 +37,8 @@
                 </div>
                 <nav class="menu">
                     <ul>
-                        <li><a href="#" class="active">Tableau de bord</a></li>
-                        <li><a href="./emploi-du-temps.php">Emploi du temps</a></li>
+                        <li><a href="./back-office.php">Tableau de bord</a></li>
+                        <li><a href="./emploi-du-temps.php" class="active">Emploi du temps</a></li>
                         <li><a href="#">Mes demandes</a></li>
                         <li><a href="./admin.php">Admin</a></li>
                         <li><a href="./logout.php">Deconexion</a></li>
@@ -59,37 +64,42 @@
                 </div>
             </nav>
             <main id="main">
-                <div class="row">
-                    <div class="col-4"></div>
-                    <div class="col-4"></div>
-                    <div class="col-4"><input type="text" name="recherche" class="form-control" placeholder="Recherche..."></div>
-                </div>
-                <br>
-                <h3>Listes des etudiants</h3>
-             <table class="table" style="font-size: 12px;">
-                 <thead>
-                     <th>#ID</th>
-                     <th>Username</th>
-                     <th>Nom</th>
-                     <th>Prenom</th>
-                 </thead>
-                 <tbody>
-                    <?php while ($row = $conn->fetch()) 
-                    {?>
-                     <tr>
-                         <td><?php echo $row['id'] ?></td>
-                         <td><?php echo $row['username'] ?></td>
-                         <td><?php echo $row['lastname'] ?></td>
-                         <td><?php echo $row['firstname'] ?></td>
-                         </td>
-                     </tr>
-                 <?php } ?>
-                 </tbody>
-             </table>
+            <form method="POST" class="form" id="emploisForm">
+                <h3>Modification d'un emplois du temps</h3><br>
+               <input type="text" class="form-control" name="matiere" id="matiere" value="<?= $emploi['matiere']?>"><br>
+               <input type="date" class="form-control" name="date" id="date" value="<?= $emploi['dates']?>"><br>
+               <input type="text" class="form-control" name="heures" id="heures"  value="<?= $emploi['heures']?>"><br>
+               <input type="submit" name="temps" id="temps" value="Modifier" class="btn btn-primary">
+            </form>
             </main>
         </div>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript">
+            jQuery(function(){
+                $(document).on('submit', '#emploisForm', function(){
+                    // var data = new FormData();
+                    $(".form-error").html('');
+                    var matiere = $("#matiere").val();
+                    var date = $("#date").val();
+                    var heures = $("#heures").val();
+
+                    $.post('./script/modification-emploi.php', {
+                        matiere: matiere,
+                        date: date,
+                        heures: heures,
+                    }, function(res){
+                        if (res.match('success') != null) {
+                            window.location.href = "emploi-du-temps.php"
+                        }else{
+                            $(".form-error").html(res);
+                        }
+                    });
+
+                    return false;
+                });
+            });
+        </script>
 </body>
 </html>
